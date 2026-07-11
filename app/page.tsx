@@ -3,10 +3,10 @@
 import { useState } from "react";
 
 const properties = [
-  { name: "Residencia Las Villas", type: "Residencial", image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=90" },
-  { name: "Casa Campestre", type: "Residencial", image: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1800&q=90" },
-  { name: "Terreno Los Viñedos", type: "Terreno", image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=90" },
-  { name: "Nave Industrial Norte", type: "Industrial", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1800&q=90" },
+  { name: "Residencia Las Villas", location: "Las Villas, Torreón", area: "680 m²", image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=90" },
+  { name: "Casa Campestre", location: "Campestre La Rosita, Torreón", area: "520 m²", image: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1800&q=90" },
+  { name: "Terreno Los Viñedos", location: "Los Viñedos, Torreón", area: "1,200 m²", image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=90" },
+  { name: "Nave Industrial Norte", location: "Zona Industrial, Torreón", area: "3,400 m²", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1800&q=90" },
 ];
 
 const menuItems = ["Services", "Propiedades", "Portafolio Privado", "Inteligencia inmobiliaria", "Ofrece tu propiedad", "About Mariana", "Contacto"];
@@ -43,7 +43,11 @@ export default function Home() {
           {properties.map((property) => (
             <a className="property" href="#" key={property.name}>
               <div className="property-image" style={{ backgroundImage: `url(${property.image})` }} />
-              <div className="property-meta"><span>{property.name}</span><span>{property.type} · Torreón</span></div>
+              <div className="property-meta">
+                <strong>{property.name}</strong>
+                <span>{property.location}</span>
+                <span>{property.area}</span>
+              </div>
             </a>
           ))}
         </div>
