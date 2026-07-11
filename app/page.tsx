@@ -35,7 +35,6 @@ export default function Home() {
 
       <section className="featured" id="destacadas">
         <div className="section-intro">
-          <p>Selección actual</p>
           <h2>Propiedades<br />destacadas</h2>
           <a href="#">Ver todas ↗</a>
         </div>
