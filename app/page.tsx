@@ -1,82 +1,70 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-const slides = [
-  {
-    image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2400&q=92",
-    eyebrow: "Mariana Villarreal Real Estate",
-    title: "Propiedades con perspectiva.",
-    action: "Ver propiedades",
-    href: "#propiedades",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=2400&q=92",
-    eyebrow: "Portafolio Privado",
-    title: "Exclusive access by invitation.",
-    action: "Solicitar acceso",
-    href: "#contacto",
-  },
+const properties = [
+  { name: "Residencia Las Villas", type: "Residencial", image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=90" },
+  { name: "Casa Campestre", type: "Residencial", image: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1800&q=90" },
+  { name: "Terreno Los Viñedos", type: "Terreno", image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=90" },
+  { name: "Nave Industrial Norte", type: "Industrial", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1800&q=90" },
 ];
 
-export default function Home() {
-  const [slide, setSlide] = useState(0);
-  const [menu, setMenu] = useState(false);
+const menuItems = ["Services", "Propiedades", "Portafolio Privado", "Inteligencia inmobiliaria", "Ofrece tu propiedad", "About Mariana", "Contacto"];
 
-  useEffect(() => {
-    const timer = window.setInterval(() => setSlide((current) => (current + 1) % slides.length), 6500);
-    return () => window.clearInterval(timer);
-  }, []);
+export default function Home() {
+  const [menu, setMenu] = useState(false);
 
   return (
     <main>
-      <section className="showcase">
-        {slides.map((item, index) => (
-          <div className={`slide ${slide === index ? "active" : ""}`} style={{ backgroundImage: `url(${item.image})` }} key={item.title}>
-            <div className="slide-copy">
-              <p>{item.eyebrow}</p>
-              <h1>{item.title}</h1>
-              <a href={item.href}>{item.action}</a>
-            </div>
-          </div>
-        ))}
-
-        <header className="site-header">
-          <button onClick={() => setMenu(true)}>SERVICES</button>
-          <a className="logo" href="#">MARIANA VILLARREAL</a>
-          <button onClick={() => setMenu(true)}>MENU</button>
+      <section className="hero">
+        <video autoPlay muted loop playsInline poster="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2400&q=92">
+          <source src="https://videos.pexels.com/video-files/3773486/3773486-hd_1920_1080_30fps.mp4" type="video/mp4" />
+        </video>
+        <div className="shade" />
+        <header>
+          <a className="brand" href="#">MARIANA VILLARREAL</a>
+          <button onClick={() => setMenu(true)}>MENÚ</button>
         </header>
+        <div className="hero-copy">
+          <p>Torreón, México</p>
+          <h1>Una mirada distinta<br />al real estate.</h1>
+          <a href="#destacadas">Explorar propiedades</a>
+        </div>
+        <span className="scroll">SCROLL</span>
+      </section>
 
-        <div className="pagination">
-          {slides.map((item, index) => <button className={slide === index ? "active" : ""} onClick={() => setSlide(index)} aria-label={`Ver ${item.eyebrow}`} key={item.title} />)}
+      <section className="featured" id="destacadas">
+        <div className="section-intro">
+          <p>Selección actual</p>
+          <h2>Propiedades<br />destacadas</h2>
+          <a href="#">Ver todas ↗</a>
+        </div>
+        <div className="property-grid">
+          {properties.map((property) => (
+            <a className="property" href="#" key={property.name}>
+              <div className="property-image" style={{ backgroundImage: `url(${property.image})` }} />
+              <div className="property-meta"><span>{property.name}</span><span>{property.type} · Torreón</span></div>
+            </a>
+          ))}
         </div>
       </section>
 
-      <section className="directory">
-        <div className="directory-group">
-          <h2>Explore</h2>
-          <a id="propiedades" href="#">Propiedades</a>
-          <a href="#">Portafolio Privado</a>
-          <a href="#">Inteligencia inmobiliaria</a>
-        </div>
-        <div className="directory-group">
-          <h2>Mariana Villarreal</h2>
-          <a href="#">Services</a>
-          <a href="#">About Mariana</a>
-          <a href="#">Ofrece tu propiedad</a>
-        </div>
-        <a className="contact-pill" id="contacto" href="mailto:hola@marianavillarreal.mx">Contacto</a>
-        <footer>
-          <div><span>Monterrey, N.L.</span><a href="mailto:hola@marianavillarreal.mx">hola@marianavillarreal.mx</a></div>
-          <div><span>© 2026 Mariana Villarreal</span><a href="#">Aviso de privacidad</a></div>
-        </footer>
-      </section>
+      <a className="private-callout" href="#">
+        <span>Acceso por invitación</span>
+        <h2>Portafolio Privado</h2>
+        <i>Descubrir ↗</i>
+      </a>
 
-      <aside className={`overlay-menu ${menu ? "open" : ""}`} aria-hidden={!menu}>
-        <button className="close" onClick={() => setMenu(false)}>CERRAR</button>
-        <nav>
-          {["Services", "Propiedades", "Portafolio Privado", "Inteligencia inmobiliaria", "Ofrece tu propiedad", "About Mariana", "Contacto"].map((item) => <a href="#" onClick={() => setMenu(false)} key={item}>{item}</a>)}
-        </nav>
+      <footer>
+        <strong>MARIANA VILLARREAL</strong>
+        <div><a href="mailto:hola@marianavillarreal.mx">hola@marianavillarreal.mx</a><span>Torreón, México</span></div>
+        <div><a href="#">Instagram</a><a href="#">WhatsApp</a><a href="#">Aviso de privacidad</a></div>
+      </footer>
+
+      <aside className={`menu-drawer ${menu ? "open" : ""}`} aria-hidden={!menu}>
+        <div className="menu-top"><span>MARIANA VILLARREAL</span><button onClick={() => setMenu(false)}>CERRAR</button></div>
+        <nav>{menuItems.map((item, index) => <a href="#" onClick={() => setMenu(false)} key={item}><small>0{index + 1}</small>{item}</a>)}</nav>
+        <div className="menu-bottom"><span>REAL ESTATE · TORREÓN, MÉXICO</span><a href="mailto:hola@marianavillarreal.mx">CONTACTO ↗</a></div>
       </aside>
     </main>
   );
