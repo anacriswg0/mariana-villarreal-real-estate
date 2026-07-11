@@ -9,7 +9,7 @@ const properties = [
   { name: "Nave Industrial Norte", location: "Zona Industrial, Torreón", area: "3,400 m²", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1800&q=90" },
 ];
 
-const menuItems = ["Services", "Propiedades", "Portafolio Privado", "Inteligencia inmobiliaria", "Ofrece tu propiedad", "About Mariana", "Contacto"];
+const menuItems = ["Services", "Propiedades", "Portafolio Privado", "Ofrece tu propiedad", "About Mariana", "Contacto"];
 
 export default function Home() {
   const [menu, setMenu] = useState(false);
@@ -36,7 +36,7 @@ export default function Home() {
       <section className="featured" id="destacadas">
         <div className="section-intro">
           <h2>Propiedades<br />destacadas</h2>
-          <a href="#">Ver todas ↗</a>
+          <a href="#">Ver todas</a>
         </div>
         <div className="property-grid">
           {properties.map((property) => (
@@ -55,7 +55,7 @@ export default function Home() {
       <a className="private-callout" href="#">
         <span>Acceso por invitación</span>
         <h2>Portafolio Privado</h2>
-        <i>Descubrir ↗</i>
+        <i>Descubrir</i>
       </a>
 
       <footer>
@@ -67,7 +67,7 @@ export default function Home() {
       <aside className={`menu-drawer ${menu ? "open" : ""}`} aria-hidden={!menu}>
         <div className="menu-top"><span>MARIANA VILLARREAL</span><button onClick={() => setMenu(false)}>CERRAR</button></div>
         <nav>{menuItems.map((item, index) => <a href="#" onClick={() => setMenu(false)} key={item}><small>0{index + 1}</small>{item}</a>)}</nav>
-        <div className="menu-bottom"><span>REAL ESTATE · TORREÓN, MÉXICO</span><a href="mailto:hola@marianavillarreal.mx">CONTACTO ↗</a></div>
+        <div className="menu-bottom"><span>REAL ESTATE · TORREÓN, MÉXICO</span><a href="mailto:hola@marianavillarreal.mx">CONTACTO</a></div>
       </aside>
     </main>
   );
