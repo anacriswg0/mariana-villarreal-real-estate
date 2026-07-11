@@ -34,11 +34,11 @@ export default function Home() {
       <section className="featured" id="destacadas">
         <div className="section-intro">
           <h2>Propiedades<br />destacadas</h2>
-          <a href="#">Ver todas</a>
+          <a href="/propiedades">Ver todas</a>
         </div>
         <div className="property-grid">
           {properties.map((property) => (
-            <a className="property" href="#" key={property.name}>
+            <a className="property" href="/propiedades" key={property.name}>
               <div className="property-image" style={{ backgroundImage: `url(${property.image})` }} />
               <div className="property-meta">
                 <strong>{property.name}</strong>
@@ -64,7 +64,7 @@ export default function Home() {
 
       <aside className={`menu-drawer ${menu ? "open" : ""}`} aria-hidden={!menu}>
         <div className="menu-top"><span>MARIANA VILLARREAL</span><button onClick={() => setMenu(false)}>CERRAR</button></div>
-        <nav>{menuItems.map((item, index) => <a href="#" onClick={() => setMenu(false)} key={item}><small>0{index + 1}</small>{item}</a>)}</nav>
+        <nav>{menuItems.map((item, index) => <a href={item === "Propiedades" ? "/propiedades" : "#"} onClick={() => setMenu(false)} key={item}><small>0{index + 1}</small>{item}</a>)}</nav>
         <div className="menu-bottom"><span>REAL ESTATE · TORREÓN, MÉXICO</span><a href="mailto:hola@marianavillarreal.mx">CONTACTO</a></div>
       </aside>
     </main>
