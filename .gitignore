@@ -16,3 +16,4 @@ db/
 vite.config.ts
 drizzle.config.ts
 pnpm-workspace.yaml
+.vercel
