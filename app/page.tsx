@@ -17,9 +17,7 @@ export default function Home() {
   return (
     <main>
       <section className="hero">
-        <video autoPlay muted loop playsInline poster="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2400&q=92">
-          <source src="https://videos.pexels.com/video-files/3773486/3773486-hd_1920_1080_30fps.mp4" type="video/mp4" />
-        </video>
+        <div className="hero-image" />
         <div className="shade" />
         <header>
           <a className="brand" href="#">MARIANA VILLARREAL</a>
@@ -27,7 +25,7 @@ export default function Home() {
         </header>
         <div className="hero-copy">
           <p>Torreón, México</p>
-          <h1>Una mirada distinta<br />al real estate.</h1>
+          <h1>A Curated Real Estate Perspective</h1>
           <a href="#destacadas">Explorar propiedades</a>
         </div>
         <span className="scroll">SCROLL</span>
