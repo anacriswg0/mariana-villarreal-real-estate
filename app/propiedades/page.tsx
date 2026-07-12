@@ -14,30 +14,31 @@ const properties = [
   {name:"Quinta La Laguna",city:"Lerdo",zone:"El Fresno",area:980,price:16300000,operation:"Venta",type:"Casa",beds:5,baths:5,features:["Alberca","Gym","Circuito cerrado"],image:"https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1400&q=88"},
 ];
 
-const initial={operation:"Todas",type:"Todos",city:"Todas",zone:"Todas",minPrice:"0",maxPrice:"999999999",minArea:"0",maxArea:"999999",beds:"0",baths:"0"};
+const groupOptions={operation:["Venta","Renta"],type:["Casa","Departamento","Terreno","Oficina","Local","Industrial"],city:["Torreón","Gómez Palacio","Lerdo"]};
+const zonesByCity:Record<string,string[]>={"Torreón":["Las Villas","Campestre La Rosita","Los Viñedos","Centro","Navarro","Los Ángeles"],"Gómez Palacio":["Zona Industrial"],"Lerdo":["El Fresno"]};
 
 export default function PropertiesPage(){
-  const [filters,setFilters]=useState(initial); const [features,setFeatures]=useState<string[]>([]);
-  const set=(key:string,value:string)=>setFilters(current=>({...current,[key]:value}));
-  const toggle=(feature:string)=>setFeatures(current=>current.includes(feature)?current.filter(item=>item!==feature):[...current,feature]);
-  const visible=useMemo(()=>properties.filter(p=>(filters.operation==="Todas"||p.operation===filters.operation)&&(filters.type==="Todos"||p.type===filters.type)&&(filters.city==="Todas"||p.city===filters.city)&&(filters.zone==="Todas"||p.zone===filters.zone)&&p.price>=Number(filters.minPrice)&&p.price<=Number(filters.maxPrice)&&p.area>=Number(filters.minArea)&&p.area<=Number(filters.maxArea)&&p.beds>=Number(filters.beds)&&p.baths>=Number(filters.baths)&&features.every(feature=>p.features.includes(feature))),[filters,features]);
-  const select=(label:string,key:string,options:[string,string][]) => <label>{label}<select value={filters[key as keyof typeof filters]} onChange={e=>set(key,e.target.value)}>{options.map(([text,value])=><option value={value} key={value}>{text}</option>)}</select></label>;
+  const [selected,setSelected]=useState<Record<string,string[]>>({operation:[],type:[],city:[],zone:[],features:[]});
+  const [maxPrice,setMaxPrice]=useState("999999999"); const [maxArea,setMaxArea]=useState("999999"); const [beds,setBeds]=useState("0"); const [baths,setBaths]=useState("0");
+  const toggle=(group:string,value:string)=>setSelected(current=>({...current,[group]:current[group].includes(value)?current[group].filter(item=>item!==value):[...current[group],value],...(group==="city"?{zone:[]}:{} )}));
+  const zones=selected.city.length?selected.city.flatMap(city=>zonesByCity[city]||[]):[];
+  const residential=selected.type.some(type=>type==="Casa"||type==="Departamento");
+  const visible=useMemo(()=>properties.filter(p=>(!selected.operation.length||selected.operation.includes(p.operation))&&(!selected.type.length||selected.type.includes(p.type))&&(!selected.city.length||selected.city.includes(p.city))&&(!selected.zone.length||selected.zone.includes(p.zone))&&p.price<=Number(maxPrice)&&p.area<=Number(maxArea)&&(!residential||(p.beds>=Number(beds)&&p.baths>=Number(baths)))&&selected.features.every(feature=>p.features.includes(feature))),[selected,maxPrice,maxArea,beds,baths,residential]);
+  const checks=(title:string,group:string,options:string[],disabled=false)=><fieldset className={disabled?"disabled":""} disabled={disabled}><legend>{title}</legend>{options.map(option=><label className="check" key={option}><input type="checkbox" checked={selected[group].includes(option)} onChange={()=>toggle(group,option)}/>{option}</label>)}</fieldset>;
   return <main className="properties-page">
     <header className="properties-header"><Link href="/">MARIANA VILLARREAL</Link><Link href="/">INICIO</Link></header>
     <section className="catalog-intro">
       <div><p>Propiedades</p><h1>Selección inmobiliaria en las mejores zonas para vivir o invertir.</h1></div>
-      <div className="filters">
-        {select("Operación","operation",[["Todas","Todas"],["Venta","Venta"],["Renta","Renta"]])}
-        {select("Tipo de propiedad","type",[["Todos","Todos"],["Casa","Casa"],["Departamento","Departamento"],["Terreno","Terreno"],["Oficina","Oficina"],["Local","Local"],["Industrial","Industrial"]])}
-        {select("Ciudad","city",[["Todas","Todas"],["Torreón","Torreón"],["Gómez Palacio","Gómez Palacio"],["Lerdo","Lerdo"]])}
-        {select("Zona o colonia","zone",[["Todas","Todas"],...Array.from(new Set(properties.map(p=>p.zone))).map(zone=>[zone,zone] as [string,string])])}
-        {select("Presupuesto mínimo","minPrice",[["Sin mínimo","0"],["$1 M","1000000"],["$5 M","5000000"],["$10 M","10000000"],["$15 M","15000000"]])}
-        {select("Presupuesto máximo","maxPrice",[["Sin máximo","999999999"],["$5 M","5000000"],["$10 M","10000000"],["$15 M","15000000"],["$20 M","20000000"]])}
-        {select("Metros cuadrados mínimos","minArea",[["Sin mínimo","0"],["150 m²","150"],["300 m²","300"],["500 m²","500"],["1,000 m²","1000"]])}
-        {select("Metros cuadrados máximos","maxArea",[["Sin máximo","999999"],["300 m²","300"],["500 m²","500"],["1,000 m²","1000"],["3,500 m²","3500"]])}
-        {select("Recámaras","beds",[["Cualquiera","0"],["1+","1"],["2+","2"],["3+","3"],["4+","4"]])}
-        {select("Baños","baths",[["Cualquiera","0"],["1+","1"],["2+","2"],["3+","3"],["4+","4"]])}
-        <fieldset><legend>Características especiales</legend>{["Alberca","Gym","Circuito cerrado"].map(feature=><label className="check" key={feature}><input type="checkbox" checked={features.includes(feature)} onChange={()=>toggle(feature)}/>{feature}</label>)}</fieldset>
+      <div className="filters checkbox-filters">
+        {checks("Operación","operation",groupOptions.operation)}
+        {checks("Tipo de propiedad","type",groupOptions.type)}
+        {checks("Ciudad","city",groupOptions.city)}
+        {checks("Zona o colonia","zone",zones,selected.city.length===0)}
+        <label>Presupuesto máximo<select value={maxPrice} onChange={e=>setMaxPrice(e.target.value)}><option value="999999999">Sin máximo</option><option value="5000000">$5 M</option><option value="10000000">$10 M</option><option value="15000000">$15 M</option><option value="20000000">$20 M</option></select></label>
+        <label>Metros cuadrados máximos<select value={maxArea} onChange={e=>setMaxArea(e.target.value)}><option value="999999">Sin máximo</option><option value="300">300 m²</option><option value="500">500 m²</option><option value="1000">1,000 m²</option><option value="3500">3,500 m²</option></select></label>
+        <label className={!residential?"disabled":""}>Recámaras<select disabled={!residential} value={beds} onChange={e=>setBeds(e.target.value)}><option value="0">Cualquiera</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option></select></label>
+        <label className={!residential?"disabled":""}>Baños<select disabled={!residential} value={baths} onChange={e=>setBaths(e.target.value)}><option value="0">Cualquiera</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option></select></label>
+        {checks("Características especiales","features",["Alberca","Gym","Circuito cerrado"])}
       </div>
     </section>
     <div className="result-count">{visible.length} propiedades</div>
