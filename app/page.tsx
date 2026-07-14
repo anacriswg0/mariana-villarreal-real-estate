@@ -3,10 +3,10 @@
 import { useState } from "react";
 
 const properties = [
-  { name: "Residencia Las Villas", location: "Las Villas, Torreón", area: "680 m²", image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=90" },
-  { name: "Casa Campestre", location: "Campestre La Rosita, Torreón", area: "520 m²", image: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1800&q=90" },
-  { name: "Terreno Los Viñedos", location: "Los Viñedos, Torreón", area: "1,200 m²", image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=90" },
-  { name: "Nave Industrial Norte", location: "Zona Industrial, Torreón", area: "3,400 m²", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1800&q=90" },
+  { id:"PROP-006", name:"Penthouses Torre Latitud 25", location:"Gómez Palacio, Durango", area:"Consultar", image:"/properties/PROP-006/01.jpg" },
+  { id:"PROP-002", name:"Casa II", location:"La Cava Residencial, Gómez Palacio", area:"367.7 m²", image:"/properties/PROP-002/01.jpg" },
+  { id:"PROP-003", name:"Lote Las Villas del Cardenchal", location:"Torreón, Coahuila", area:"360 m²", image:"/properties/PROP-003/01.jpg" },
+  { id:"PROP-009", name:"Lote Las Villas", location:"Torreón, Coahuila", area:"600 m²", image:"/properties/PROP-009/01.jpg" },
 ];
 
 const menuItems = ["Services", "Propiedades", "Portafolio Privado", "Ofrece tu propiedad", "About Mariana", "Contacto"];
@@ -38,7 +38,7 @@ export default function Home() {
         </div>
         <div className="property-grid">
           {properties.map((property) => (
-            <a className="property" href="/propiedades" key={property.name}>
+            <a className="property" href={`/propiedades/${property.id}`} key={property.name}>
               <div className="property-image" style={{ backgroundImage: `url(${property.image})` }} />
               <div className="property-meta">
                 <strong>{property.name}</strong>
