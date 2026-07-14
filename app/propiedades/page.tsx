@@ -3,8 +3,8 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { properties, propertyImage } from "../property-data";
 
-const groupOptions={operation:["Venta","Renta"],type:["Casa","Departamento","Terreno","Oficina","Local","Industrial"],city:["Torreón","San Pedro Garza García"]};
-const zonesByCity:Record<string,string[]>={"Torreón":["Las Villas","La Cava Residencial","Las Villas del Cardenchal","La Gran Vinícola","Torre Latitud 25","Centro / Avenida Allende"],"San Pedro Garza García":["Parque Rufino Tamayo"]};
+const groupOptions={operation:["Venta","Renta"],type:["Casa","Departamento","Terreno","Oficina","Local","Industrial"],city:["Torreón","Gómez Palacio, Durango","San Pedro Garza García"]};
+const zonesByCity:Record<string,string[]>={"Torreón":["Las Villas","Las Villas del Cardenchal","Centro / Avenida Allende"],"Gómez Palacio, Durango":["La Cava Residencial","La Gran Vinícola","Torre Latitud 25"],"San Pedro Garza García":["Parque Rufino Tamayo"]};
 
 export default function PropertiesPage(){
   const [selected,setSelected]=useState<Record<string,string[]>>({operation:[],type:[],city:[],zone:[],features:[]});
