@@ -15,6 +15,7 @@ const zonesByCity=properties.reduce<Record<string,string[]>>((zones,property)=>{
 },{});
 const filterableFeatures=["Alberca","Gym","Rooftop","Terraza","Jardín","Oficina","Sala de TV","Canchas de pádel","Área de asadores","Acceso directo al parque"];
 const availableFeatures=filterableFeatures.filter(feature=>properties.some(property=>property.features.includes(feature)));
+const formatPrice=(price?:number)=>price?new Intl.NumberFormat("es-MX",{style:"currency",currency:"MXN",maximumFractionDigits:0}).format(price):"Precio a solicitud";
 
 export default function PropertiesPage(){
   const [selected,setSelected]=useState<Record<string,string[]>>({operation:[],type:[],city:[],zone:[],features:[]});
@@ -41,6 +42,17 @@ export default function PropertiesPage(){
       </div>
     </section>
     <div className="result-count">{visible.length} propiedades</div>
-    <section className="catalog-grid">{visible.map(p=><Link className="catalog-card" href={`/propiedades/${p.id}`} key={p.name}><div className="catalog-image" style={{backgroundImage:`url(${propertyImage(p)})`}}/><div className="catalog-info"><strong>{p.name}</strong><span>{p.zone}, {p.city}</span><span>{p.area?p.area.toLocaleString("es-MX")+" m²":"Consultar"}</span></div></Link>)}</section>
+    <section className="catalog-grid">{visible.map(p=>{
+      const residential=p.type==="Casa"||p.type==="Departamento";
+      return <Link className="catalog-card" href={`/propiedades/${p.id}`} key={p.name}><div className="catalog-image" style={{backgroundImage:`url(${propertyImage(p)})`}}/><div className="catalog-info">
+        <strong>{p.name}</strong>
+        <span>{p.zone}, {p.city}</span>
+        <span>{formatPrice(p.price)}</span>
+        <span>{p.area?p.area.toLocaleString("es-MX")+" m²":"Superficie a solicitud"}</span>
+        {p.construction&&<span>{p.construction.toLocaleString("es-MX")} m² construcción</span>}
+        {residential&&p.beds>0&&<span>{p.beds} recámaras</span>}
+        {residential&&p.baths>0&&<span>{p.baths} baños</span>}
+      </div></Link>;
+    })}</section>
   </main>;
 }
