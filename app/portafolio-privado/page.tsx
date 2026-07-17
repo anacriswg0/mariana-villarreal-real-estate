@@ -45,9 +45,9 @@ export default function PortafolioPrivadoPage() {
           <p className="eyebrow">Acceso privado</p>
           <h1>Portafolio Privado</h1>
           <p className="private-intro">
-            Algunas propiedades no se publican. Déjame aquí tu nombre, celular y
-            correo electrónico para solicitar acceso a una selección de
-            oportunidades que comparto únicamente de forma privada.
+            Algunas propiedades no se publican de forma pública. Déjame aquí tu
+            nombre, celular y correo electrónico para solicitar acceso a una
+            selección de oportunidades que comparto únicamente de forma privada.
           </p>
           <form className="private-form" onSubmit={submit}>
             <label>Nombre<input name="nombre" autoComplete="name" required /></label>
