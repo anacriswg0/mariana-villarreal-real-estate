@@ -11,7 +11,7 @@ export default function PortafolioPrivadoPage() {
     const data = new FormData(event.currentTarget);
     const subject = encodeURIComponent("Solicitud de acceso · Portafolio Privado");
     const body = encodeURIComponent(`Nombre: ${data.get("nombre")}\nCelular: ${data.get("celular")}\nCorreo: ${data.get("correo")}`);
-    window.location.href = `mailto:hola@marianavillarreal.mx?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:mvgvigo@gmail.com?subject=${subject}&body=${body}`;
     setSent(true);
   };
 

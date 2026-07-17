@@ -29,7 +29,6 @@ export default function Home() {
           <button onClick={() => setMenu(true)}>MENÚ</button>
         </header>
         <div className="hero-copy">
-          <p>Torreón, México</p>
           <h1>A Curated Real Estate Perspective</h1>
           <a href="#destacadas">Explorar propiedades</a>
         </div>
@@ -63,7 +62,7 @@ export default function Home() {
 
       <footer>
         <strong>MARIANA VILLARREAL</strong>
-        <div><a href="mailto:hola@marianavillarreal.mx">hola@marianavillarreal.mx</a><span>Torreón, México</span></div>
+        <div><a href="mailto:mvgvigo@gmail.com">mvgvigo@gmail.com</a></div>
         <div>
           <a href="https://www.instagram.com/marianavillarreal.realestate/" target="_blank" rel="noreferrer">Instagram</a>
           <a href="https://wa.me/5218711213568" target="_blank" rel="noreferrer">WhatsApp</a>
@@ -74,7 +73,7 @@ export default function Home() {
       <aside className={`menu-drawer ${menu ? "open" : ""}`} aria-hidden={!menu}>
         <div className="menu-top"><span>MARIANA VILLARREAL</span><button onClick={() => setMenu(false)}>CERRAR</button></div>
         <nav>{menuItems.map((item, index) => <a href={item.href} onClick={() => setMenu(false)} key={item.label}><small>0{index + 1}</small>{item.label}</a>)}</nav>
-        <div className="menu-bottom"><span>REAL ESTATE · TORREÓN, MÉXICO</span><a href="mailto:hola@marianavillarreal.mx">CONTACTO</a></div>
+        <div className="menu-bottom"><span>REAL ESTATE</span><a href="mailto:mvgvigo@gmail.com">CONTACTO</a></div>
       </aside>
     </main>
   );
