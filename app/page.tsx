@@ -13,7 +13,7 @@ const menuItems = [
   { label: "Servicios", href: "/servicios" },
   { label: "Propiedades", href: "/propiedades" },
   { label: "Portafolio Privado", href: "/portafolio-privado" },
-  { label: "Ofrece tu propiedad", href: "mailto:hola@marianavillarreal.mx?subject=Quiero%20ofrecer%20una%20propiedad" },
+  { label: "Ofrece tu propiedad", href: "/ofrece-tu-propiedad" },
 ];
 
 export default function Home() {
@@ -64,7 +64,11 @@ export default function Home() {
       <footer>
         <strong>MARIANA VILLARREAL</strong>
         <div><a href="mailto:hola@marianavillarreal.mx">hola@marianavillarreal.mx</a><span>Torreón, México</span></div>
-        <div><a href="#">Instagram</a><a href="#">WhatsApp</a><a href="#">Aviso de privacidad</a></div>
+        <div>
+          <a href="https://www.instagram.com/marianavillarreal.realestate/" target="_blank" rel="noreferrer">Instagram</a>
+          <a href="https://wa.me/5218711213568" target="_blank" rel="noreferrer">WhatsApp</a>
+          <a href="#">Aviso de privacidad</a>
+        </div>
       </footer>
 
       <aside className={`menu-drawer ${menu ? "open" : ""}`} aria-hidden={!menu}>

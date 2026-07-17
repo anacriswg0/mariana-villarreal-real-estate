@@ -17,7 +17,6 @@ export default function ServiciosPage() {
             <p>Selecciono opciones en buenas ubicaciones, colonias consolidadas y zonas con potencial de plusvalía, siempre tomando en cuenta lo que buscas y lo que realmente necesitas.</p>
             <p>Estoy en Torreón, pero también cuento con opciones en diferentes lugares de México. Mi objetivo es ayudarte a encontrar una propiedad que vaya con tu estilo de vida y que también sea una buena decisión para tu patrimonio.</p>
           </div>
-          <a className="text-link" href="mailto:hola@marianavillarreal.mx?subject=Solicitud%20de%20asesoría">Solicitar asesoría</a>
         </div>
       </section>
     </main>
