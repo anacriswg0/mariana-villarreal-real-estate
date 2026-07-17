@@ -9,7 +9,7 @@ const properties = [
   { id:"PROP-009", name:"Lote Las Villas", location:"Torreón, Coahuila", area:"600 m²", image:"/properties/PROP-009/01.jpg" },
 ];
 
-const menuItems = ["Services", "Propiedades", "Portafolio Privado", "Ofrece tu propiedad", "About Mariana", "Contacto"];
+const menuItems = ["Servicios", "Propiedades", "Portafolio Privado", "Ofrece tu propiedad"];
 
 export default function Home() {
   const [menu, setMenu] = useState(false);

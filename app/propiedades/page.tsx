@@ -3,8 +3,18 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { properties, propertyImage } from "../property-data";
 
-const groupOptions={operation:["Venta","Renta"],type:["Casa","Departamento","Terreno","Oficina","Local","Industrial"],city:["Torreón","Gómez Palacio, Durango","San Pedro Garza García"]};
-const zonesByCity:Record<string,string[]>={"Torreón":["Las Villas","Las Villas del Cardenchal","Centro / Avenida Allende"],"Gómez Palacio, Durango":["La Cava Residencial","La Gran Vinícola","Torre Latitud 25"],"San Pedro Garza García":["Parque Rufino Tamayo"]};
+const unique=(values:string[])=>[...new Set(values)];
+const groupOptions={
+  operation:unique(properties.map(property=>property.operation)),
+  type:unique(properties.map(property=>property.type)),
+  city:unique(properties.map(property=>property.city)),
+};
+const zonesByCity=properties.reduce<Record<string,string[]>>((zones,property)=>{
+  zones[property.city]=unique([...(zones[property.city]||[]),property.zone]);
+  return zones;
+},{});
+const filterableFeatures=["Alberca","Gym","Rooftop","Terraza","Jardín","Oficina","Sala de TV","Canchas de pádel","Área de asadores","Acceso directo al parque"];
+const availableFeatures=filterableFeatures.filter(feature=>properties.some(property=>property.features.includes(feature)));
 
 export default function PropertiesPage(){
   const [selected,setSelected]=useState<Record<string,string[]>>({operation:[],type:[],city:[],zone:[],features:[]});
@@ -27,7 +37,7 @@ export default function PropertiesPage(){
         <label>Metros cuadrados máximos<select value={maxArea} onChange={e=>setMaxArea(e.target.value)}><option value="999999">Sin máximo</option><option value="360">360 m²</option><option value="600">600 m²</option><option value="1200">1,200 m²</option><option value="3500">3,500 m²</option></select></label>
         <label className={!residential?"disabled":""}>Recámaras<select disabled={!residential} value={beds} onChange={e=>setBeds(e.target.value)}><option value="0">Cualquiera</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option></select></label>
         <label className={!residential?"disabled":""}>Baños<select disabled={!residential} value={baths} onChange={e=>setBaths(e.target.value)}><option value="0">Cualquiera</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option></select></label>
-        {checks("Características especiales","features",["Alberca","Gym","Circuito cerrado"])}
+        {checks("Características especiales","features",availableFeatures)}
       </div>
     </section>
     <div className="result-count">{visible.length} propiedades</div>
