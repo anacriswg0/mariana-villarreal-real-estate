@@ -9,7 +9,7 @@ export default async function PropertyDetail({params}:{params:Promise<{id:string
   const residential=property.type==="Casa"||property.type==="Departamento";
   const areaLabel=property.type==="Casa"||property.type==="Terreno"?"Terreno":"Superficie";
   return <main className="property-detail">
-    <section className="detail-hero" style={{backgroundImage:`url(${propertyImage(property)})`}}/>
+    <section className={`detail-hero${property.planOnly?" detail-hero--plan":""}`} style={{backgroundImage:`url(${propertyImage(property)})`}}/>
     <section className="detail-copy"><div><p>{property.operation} · {property.type}</p><h1>{property.name}</h1><span>{property.zone}, {property.city}</span></div><div><strong>{price}</strong><p>{property.description}</p><dl>
       <dt>Operación</dt><dd>{property.operation}</dd>
       <dt>Tipo de propiedad</dt><dd>{property.type}</dd>
