@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 const properties = [
   { id:"PROP-006", name:"Penthouses Torre Latitud 25", location:"Gómez Palacio, Durango", area:"485.85 m²", image:"/properties/PROP-006/01.jpg" },
-  { id:"PROP-002", name:"Casa II", location:"La Cava Residencial, Gómez Palacio", area:"367.7 m²", image:"/properties/PROP-002/01.jpg" },
+  { id:"PROP-002", name:"Casa II", location:"La Cava Residencial, Gómez Palacio", area:"311 m²", image:"/properties/PROP-002/01.jpg" },
   { id:"PROP-003", name:"Lote Las Villas del Cardenchal", location:"Torreón, Coahuila", area:"360 m²", image:"/properties/PROP-003/01.jpg" },
-  { id:"PROP-009", name:"Lote Villa Cóndores", location:"Las Villas, Torreón", area:"600 m²", image:"/properties/PROP-009/01.jpg" },
+  { id:"PROP-009", name:"Lote Villa Cóndores", location:"Las Villas, Torreón", area:"600 m²", image:"/properties/PROP-009/01.jpg", status:"SOLD OUT" },
 ];
 
 const menuItems = [
@@ -38,18 +39,18 @@ export default function Home() {
       <section className="featured" id="destacadas">
         <div className="section-intro">
           <h2>Propiedades<br />destacadas</h2>
-          <a href="/propiedades">Ver todas</a>
+          <Link href="/propiedades">Ver todas</Link>
         </div>
         <div className="property-grid">
           {properties.map((property) => (
-            <a className="property" href={`/propiedades/${property.id}`} key={property.name}>
+            <Link className="property" href={`/propiedades/${property.id}`} key={property.name}>
               <div className="property-image" style={{ backgroundImage: `url(${property.image})` }} />
               <div className="property-meta">
                 <strong>{property.name}</strong>
                 <span>{property.location}</span>
-                <span>{property.area}</span>
+                <span>{property.status || `Superficie total: ${property.area}`}</span>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       </section>

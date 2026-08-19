@@ -18,3 +18,4 @@ body,button,input,select,textarea,.hero-copy h1,.section-intro h2,.private-callo
 .offer-image{background-image:url("/images/servicios.jpg");background-position:center 28%}
 @media(max-width:900px){.editorial-layout{grid-template-columns:1fr}.editorial-image{min-height:68vh}.editorial-copy{padding:70px 32px 90px}.private-image{background-position:center 20%}}
 @media(max-width:560px){.editorial-image{min-height:55vh}.editorial-copy{padding:55px 18px 75px}.editorial-text,.private-intro{font-size:12pt}}
+.catalog-info .catalog-status,.detail-status{color:#111;text-transform:uppercase;letter-spacing:.08em}

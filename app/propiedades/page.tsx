@@ -15,15 +15,15 @@ const zonesByCity=properties.reduce<Record<string,string[]>>((zones,property)=>{
 },{});
 const filterableFeatures=["Alberca","Gym","Rooftop","Terraza","Jardín","Oficina","Sala de TV","Canchas de pádel","Área de asadores","Acceso directo al parque"];
 const availableFeatures=filterableFeatures.filter(feature=>properties.some(property=>property.features.includes(feature)));
-const formatPrice=(price?:number)=>price?new Intl.NumberFormat("es-MX",{style:"currency",currency:"MXN",maximumFractionDigits:0}).format(price):"Precio a solicitud";
+const formatPrice=(property:(typeof properties)[number])=>property.price?`${new Intl.NumberFormat("es-MX",{style:"currency",currency:"MXN",maximumFractionDigits:0}).format(property.price)}${property.pricePeriod?` / ${property.pricePeriod}`:""}`:"Precio a solicitud";
 
 export default function PropertiesPage(){
   const [selected,setSelected]=useState<Record<string,string[]>>({operation:[],type:[],city:[],zone:[],features:[]});
-  const [maxPrice,setMaxPrice]=useState("999999999"); const [maxArea,setMaxArea]=useState("999999"); const [beds,setBeds]=useState("0"); const [baths,setBaths]=useState("0");
+  const [maxPrice,setMaxPrice]=useState("999999999"); const [maxArea,setMaxArea]=useState("all"); const [beds,setBeds]=useState("0"); const [baths,setBaths]=useState("0");
   const toggle=(group:string,value:string)=>setSelected(current=>({...current,[group]:current[group].includes(value)?current[group].filter(item=>item!==value):[...current[group],value],...(group==="city"?{zone:[]}:{} )}));
   const zones=selected.city.length?selected.city.flatMap(city=>zonesByCity[city]||[]):[];
   const residential=selected.type.some(type=>type==="Casa"||type==="Departamento");
-  const visible=useMemo(()=>properties.filter(p=>(!selected.operation.length||selected.operation.includes(p.operation))&&(!selected.type.length||selected.type.includes(p.type))&&(!selected.city.length||selected.city.includes(p.city))&&(!selected.zone.length||selected.zone.includes(p.zone))&&(!p.price||p.price<=Number(maxPrice))&&(!p.area||p.area<=Number(maxArea))&&(!residential||(p.beds>=Number(beds)&&p.baths>=Number(baths)))&&selected.features.every(feature=>p.features.includes(feature))).sort((a,b)=>a.name.localeCompare(b.name,"es",{sensitivity:"base"})),[selected,maxPrice,maxArea,beds,baths,residential]);
+  const visible=useMemo(()=>properties.filter(p=>(!selected.operation.length||selected.operation.includes(p.operation))&&(!selected.type.length||selected.type.includes(p.type))&&(!selected.city.length||selected.city.includes(p.city))&&(!selected.zone.length||selected.zone.includes(p.zone))&&(!p.price||p.price<=Number(maxPrice))&&(maxArea==="all"||(p.totalArea>0&&p.totalArea<=Number(maxArea)))&&(!residential||(p.beds>=Number(beds)&&p.baths>=Number(baths)))&&selected.features.every(feature=>p.features.includes(feature))).sort((a,b)=>a.name.localeCompare(b.name,"es",{sensitivity:"base"})),[selected,maxPrice,maxArea,beds,baths,residential]);
   const checks=(title:string,group:string,options:string[],disabled=false)=><fieldset className={disabled?"disabled":""} disabled={disabled}><legend>{title}</legend>{options.map(option=><label className="check" key={option}><input type="checkbox" checked={selected[group].includes(option)} onChange={()=>toggle(group,option)}/>{option}</label>)}</fieldset>;
   return <main className="properties-page">
     <header className="properties-header"><Link href="/">MARIANA VILLARREAL</Link><Link href="/">INICIO</Link></header>
@@ -35,7 +35,7 @@ export default function PropertiesPage(){
         {checks("Ciudad","city",groupOptions.city)}
         {checks("Zona o colonia","zone",zones,selected.city.length===0)}
         <label>Presupuesto máximo<select value={maxPrice} onChange={e=>setMaxPrice(e.target.value)}><option value="999999999">Sin máximo</option><option value="3000000">$3 M</option><option value="6000000">$6 M</option><option value="10000000">$10 M</option><option value="20000000">$20 M</option><option value="40000000">$40 M</option></select></label>
-        <label>Metros cuadrados máximos<select value={maxArea} onChange={e=>setMaxArea(e.target.value)}><option value="999999">Sin máximo</option><option value="360">360 m²</option><option value="600">600 m²</option><option value="1200">1,200 m²</option><option value="3500">3,500 m²</option></select></label>
+        <label>Superficie total máxima<select value={maxArea} onChange={e=>setMaxArea(e.target.value)}><option value="all">Sin máximo</option><option value="360">360 m²</option><option value="600">600 m²</option><option value="1200">1,200 m²</option><option value="4000">4,000 m²</option><option value="260000">26 ha</option></select></label>
         <label className={!residential?"disabled":""}>Recámaras<select disabled={!residential} value={beds} onChange={e=>setBeds(e.target.value)}><option value="0">Cualquiera</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option></select></label>
         <label className={!residential?"disabled":""}>Baños<select disabled={!residential} value={baths} onChange={e=>setBaths(e.target.value)}><option value="0">Cualquiera</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option></select></label>
         {checks("Características especiales","features",availableFeatures)}
@@ -44,11 +44,11 @@ export default function PropertiesPage(){
     <div className="result-count">{visible.length} propiedades</div>
     <section className="catalog-grid">{visible.map(p=>{
       const residential=p.type==="Casa"||p.type==="Departamento";
-      return <Link className="catalog-card" href={`/propiedades/${p.id}`} key={p.name}><div className={`catalog-image${p.planOnly?" catalog-image--plan":""}`} style={{backgroundImage:`url(${propertyImage(p)})`}}/><div className="catalog-info">
+      return <Link className="catalog-card" href={`/propiedades/${p.id}`} key={p.name}><div className={`catalog-image${p.containImage?" catalog-image--plan":""}`} style={{backgroundImage:`url(${propertyImage(p)})`}}/><div className="catalog-info">
         <strong>{p.name}</strong>
         <span>{p.zone}, {p.city}</span>
-        <span>{formatPrice(p.price)}</span>
-        <span>{p.area?p.area.toLocaleString("es-MX")+" m²":"Superficie a solicitud"}</span>
+        <span className={p.status?"catalog-status":undefined}>{p.status||formatPrice(p)}</span>
+        <span>Superficie total: {p.totalArea?p.totalArea.toLocaleString("es-MX")+" m²":"A solicitud"}</span>
         {p.construction&&<span>{p.construction.toLocaleString("es-MX")} m² construcción</span>}
         {residential&&p.beds>0&&<span>{p.beds} recámaras</span>}
         {residential&&p.baths>0&&<span>{p.baths} baños</span>}
