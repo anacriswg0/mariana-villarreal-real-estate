@@ -26,7 +26,7 @@ export type Property = {
 export const properties: Property[] = [
   {
     id: "PROP-001",
-    name: "Casa I",
+    name: "Casa 01",
     operation: "Venta",
     type: "Casa",
     city: "Torreón",
@@ -43,7 +43,7 @@ export const properties: Property[] = [
   },
   {
     id: "PROP-002",
-    name: "Casa II",
+    name: "Casa 02",
     operation: "Venta",
     type: "Casa",
     city: "Gómez Palacio, Durango",
@@ -76,7 +76,7 @@ export const properties: Property[] = [
   },
   {
     id: "PROP-004",
-    name: "Casa III",
+    name: "Casa 03",
     operation: "Venta",
     type: "Casa",
     city: "Torreón",
