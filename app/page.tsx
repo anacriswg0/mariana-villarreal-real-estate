@@ -7,7 +7,7 @@ const properties = [
   { id:"PROP-006", name:"Penthouses Torre Latitud 25", location:"Gómez Palacio, Durango", area:"485.85 m²", image:"/properties/PROP-006/01.jpg" },
   { id:"PROP-002", name:"Casa II", location:"La Cava Residencial, Gómez Palacio", area:"311 m²", image:"/properties/PROP-002/01.jpg" },
   { id:"PROP-003", name:"Lote Las Villas del Cardenchal", location:"Torreón, Coahuila", area:"360 m²", image:"/properties/PROP-003/01.jpg" },
-  { id:"PROP-009", name:"Lote Villa Cóndores", location:"Las Villas, Torreón", area:"600 m²", image:"/properties/PROP-009/01.jpg", status:"SOLD OUT" },
+  { id:"PROP-009", name:"Lote Villa Cóndores", location:"Las Villas, Torreón", area:"600 m²", image:"/properties/PROP-009/02.jpg" },
 ];
 
 const menuItems = [
@@ -48,7 +48,7 @@ export default function Home() {
               <div className="property-meta">
                 <strong>{property.name}</strong>
                 <span>{property.location}</span>
-                <span>{property.status || `Superficie total: ${property.area}`}</span>
+                <span>Superficie total: {property.area}</span>
               </div>
             </Link>
           ))}

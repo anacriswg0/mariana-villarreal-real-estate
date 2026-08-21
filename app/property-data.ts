@@ -8,8 +8,9 @@ export type Property = {
   totalArea: number;
   construction?: number;
   price?: number;
+  pricePerSquareMeter?: number;
   pricePeriod?: string;
-  status?: "SOLD OUT";
+  status?: "VENDIDA";
   beds: number;
   baths: number;
   features: string[];
@@ -18,6 +19,8 @@ export type Property = {
   imageCount: number;
   imageExtension?: "jpg" | "png";
   containImage?: boolean;
+  coverImageIndex?: number;
+  galleryImageIndices?: number[];
 };
 
 export const properties: Property[] = [
@@ -62,7 +65,7 @@ export const properties: Property[] = [
     type: "Terreno",
     city: "Torreón",
     zone: "Las Villas del Cardenchal",
-    price: 3060000,
+    pricePerSquareMeter: 7500,
     totalArea: 360,
     beds: 0,
     baths: 0,
@@ -78,6 +81,7 @@ export const properties: Property[] = [
     type: "Casa",
     city: "Torreón",
     zone: "Las Villas",
+    price: 19900000,
     totalArea: 0,
     beds: 4,
     baths: 0,
@@ -142,14 +146,15 @@ export const properties: Property[] = [
     city: "Torreón",
     zone: "Las Villas",
     price: 5700000,
-    status: "SOLD OUT",
     totalArea: 600,
     beds: 0,
     baths: 0,
     features: ["Lote CN-32", "Superficie total: 600 m²", "Frente: 19.41 m (11.58 m + 7.83 m)", "Contrafrente: 19.35 m", "Laterales: 31.82 m y 30.28 m", "Vista al área verde", "Vecinos a ambos lados"],
-    description: "Lote CN-32 de 600 m² en Villa Cóndores. Esta propiedad ya fue vendida.",
+    description: "Lote CN-32 de 600 m² disponible en Villa Cóndores, con vista al área verde y vecinos a ambos lados.",
     instagram: "https://www.instagram.com/p/DZsrUxuhdTa/",
     imageCount: 3,
+    coverImageIndex: 2,
+    galleryImageIndices: [2, 3],
   },
   {
     id: "PROP-010",
@@ -158,6 +163,7 @@ export const properties: Property[] = [
     type: "Departamento",
     city: "San Pedro Garza García",
     zone: "Parque Rufino Tamayo",
+    price: 19000000,
     totalArea: 102,
     beds: 2,
     baths: 2.5,
@@ -172,6 +178,7 @@ export const properties: Property[] = [
     type: "Terreno",
     city: "Arteaga, Coahuila",
     zone: "Carretera Arteaga",
+    price: 19000000,
     totalArea: 260000,
     beds: 0,
     baths: 0,
@@ -193,9 +200,8 @@ export const properties: Property[] = [
     baths: 2,
     features: ["2 departamentos disponibles", "Recepción", "Área de cowork", "Cuarto de juegos", "Gym", "Alberca", "Cocina equipada", "Cuarto de lavado", "3 minisplits", "Smart TV", "Muros tapizados", "5.º piso", "Mantenimiento incluido"],
     description: "Dos departamentos amueblados y equipados de 72 m² disponibles en el quinto piso de Imperia. Cada uno cuenta con cocina, sala, dos recámaras, dos baños y cuarto de lavado.",
-    imageCount: 4,
-    imageExtension: "png",
-    containImage: true,
+    imageCount: 10,
+    coverImageIndex: 6,
   },
   {
     id: "PROP-013",
@@ -210,21 +216,21 @@ export const properties: Property[] = [
     features: ["Lote LB-17", "Superficie total: 400 m²", "Frente curvo: 15 m", "Contrafrente: 26.10 m (25.98 m + 0.12 m)", "Laterales: 23.30 m y 22.11 m", "Circuito Libélulas", "Forma irregular"],
     description: "Lote LB-17 de 400 m² en Villa Libélulas, con frente curvo de 15 m sobre Circuito Libélulas y un trazo irregular para un proyecto arquitectónico distintivo.",
     imageCount: 1,
-    containImage: true,
   },
   {
     id: "PROP-014",
-    name: "Lote Villa Gorriones",
+    name: "Lote Fraccionamiento Parvada",
     operation: "Venta",
     type: "Terreno",
-    city: "Torreón",
-    zone: "Las Villas",
-    totalArea: 1000,
+    city: "Parras de la Fuente, Coahuila",
+    zone: "Fraccionamiento Parvada",
+    pricePerSquareMeter: 4050,
+    totalArea: 1154.45,
     beds: 0,
     baths: 0,
-    features: ["Lote GR-01", "Superficie total: 1,000 m²", "Frente: 33.64 m", "Profundidad: 25.05 m", "Esquina con doble frente"],
-    description: "Lote GR-01 de 1,000 m² en Villa Gorriones, con 33.64 m de frente y 25.05 m de profundidad.",
-    imageCount: 2,
+    features: ["Superficie total: 1,154.45 m²", "Precio: $4,050 MXN por m²"],
+    description: "Lote de 1,154.45 m² en Fraccionamiento Parvada, disponible a $4,050 MXN por m².",
+    imageCount: 5,
   },
   {
     id: "PROP-015",
@@ -240,7 +246,39 @@ export const properties: Property[] = [
     description: "Lote E-09 de 3,931.05 m² en Villa Venados, con 82.27 m de frente, doble acceso principal y peatonal, y abundantes nogales dentro de una privada privilegiada de Las Villas.",
     imageCount: 4,
   },
+  {
+    id: "PROP-016",
+    name: "Casa 04 — Cóndores 34",
+    operation: "Venta",
+    type: "Casa",
+    city: "Torreón",
+    zone: "Las Villas",
+    price: 19300000,
+    status: "VENDIDA",
+    totalArea: 0,
+    beds: 0,
+    baths: 0,
+    features: ["Circuito Cóndores 34", "Jardín", "Alberca", "Terraza", "Bar", "Cocina equipada"],
+    description: "Casa en Circuito Cóndores 34, dentro de Las Villas. Esta propiedad fue vendida en $19,300,000 MXN.",
+    instagram: "https://www.instagram.com/s/aGlnaGxpZ2h0OjE3OTc5OTIxNzQ2ODg4MzA3?igsi=MXhhMDE0eHM1b2Fl",
+    imageCount: 18,
+  },
 ];
 
-export const propertyImage = (property: Property, index = 1) =>
-  `/properties/${property.id}/${String(index).padStart(2, "0")}.${property.imageExtension || "jpg"}`;
+export const propertyImage = (property: Property, index?: number) =>
+  `/properties/${property.id}/${String(index ?? property.coverImageIndex ?? 1).padStart(2, "0")}.${property.imageExtension || "jpg"}`;
+
+export const propertyGalleryImages = (property: Property) =>
+  (property.galleryImageIndices || Array.from({ length: property.imageCount }, (_, index) => index + 1)).map(index =>
+    `/properties/${property.id}/${String(index).padStart(2, "0")}.${property.imageExtension || "jpg"}`
+  );
+
+export const propertyTotalPrice = (property: Property) =>
+  property.price ?? (property.pricePerSquareMeter && property.totalArea > 0 ? property.pricePerSquareMeter * property.totalArea : undefined);
+
+export const formatPropertyPrice = (property: Property) => {
+  const formatter = new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN", maximumFractionDigits: 0 });
+  if (property.pricePerSquareMeter) return `${formatter.format(property.pricePerSquareMeter)} / m²`;
+  if (property.price) return `${formatter.format(property.price)}${property.pricePeriod ? ` / ${property.pricePeriod}` : ""}`;
+  return "Precio a solicitud";
+};

@@ -1,7 +1,7 @@
 "use client";
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { properties, propertyImage } from "../property-data";
+import { formatPropertyPrice, properties, propertyImage, propertyTotalPrice } from "../property-data";
 
 const unique=(values:string[])=>[...new Set(values)];
 const groupOptions={
@@ -15,15 +15,16 @@ const zonesByCity=properties.reduce<Record<string,string[]>>((zones,property)=>{
 },{});
 const filterableFeatures=["Alberca","Gym","Rooftop","Terraza","Jardín","Oficina","Sala de TV","Canchas de pádel","Área de asadores","Acceso directo al parque"];
 const availableFeatures=filterableFeatures.filter(feature=>properties.some(property=>property.features.includes(feature)));
-const formatPrice=(property:(typeof properties)[number])=>property.price?`${new Intl.NumberFormat("es-MX",{style:"currency",currency:"MXN",maximumFractionDigits:0}).format(property.price)}${property.pricePeriod?` / ${property.pricePeriod}`:""}`:"Precio a solicitud";
-
 export default function PropertiesPage(){
   const [selected,setSelected]=useState<Record<string,string[]>>({operation:[],type:[],city:[],zone:[],features:[]});
   const [maxPrice,setMaxPrice]=useState("999999999"); const [maxArea,setMaxArea]=useState("all"); const [beds,setBeds]=useState("0"); const [baths,setBaths]=useState("0");
   const toggle=(group:string,value:string)=>setSelected(current=>({...current,[group]:current[group].includes(value)?current[group].filter(item=>item!==value):[...current[group],value],...(group==="city"?{zone:[]}:{} )}));
   const zones=selected.city.length?selected.city.flatMap(city=>zonesByCity[city]||[]):[];
   const residential=selected.type.some(type=>type==="Casa"||type==="Departamento");
-  const visible=useMemo(()=>properties.filter(p=>(!selected.operation.length||selected.operation.includes(p.operation))&&(!selected.type.length||selected.type.includes(p.type))&&(!selected.city.length||selected.city.includes(p.city))&&(!selected.zone.length||selected.zone.includes(p.zone))&&(!p.price||p.price<=Number(maxPrice))&&(maxArea==="all"||(p.totalArea>0&&p.totalArea<=Number(maxArea)))&&(!residential||(p.beds>=Number(beds)&&p.baths>=Number(baths)))&&selected.features.every(feature=>p.features.includes(feature))).sort((a,b)=>a.name.localeCompare(b.name,"es",{sensitivity:"base"})),[selected,maxPrice,maxArea,beds,baths,residential]);
+  const visible=useMemo(()=>properties.filter(p=>{
+    const listingPrice=propertyTotalPrice(p);
+    return (!selected.operation.length||selected.operation.includes(p.operation))&&(!selected.type.length||selected.type.includes(p.type))&&(!selected.city.length||selected.city.includes(p.city))&&(!selected.zone.length||selected.zone.includes(p.zone))&&(!listingPrice||listingPrice<=Number(maxPrice))&&(maxArea==="all"||(p.totalArea>0&&p.totalArea<=Number(maxArea)))&&(!residential||(p.beds>=Number(beds)&&p.baths>=Number(baths)))&&selected.features.every(feature=>p.features.includes(feature));
+  }).sort((a,b)=>a.name.localeCompare(b.name,"es",{sensitivity:"base"})),[selected,maxPrice,maxArea,beds,baths,residential]);
   const checks=(title:string,group:string,options:string[],disabled=false)=><fieldset className={disabled?"disabled":""} disabled={disabled}><legend>{title}</legend>{options.map(option=><label className="check" key={option}><input type="checkbox" checked={selected[group].includes(option)} onChange={()=>toggle(group,option)}/>{option}</label>)}</fieldset>;
   return <main className="properties-page">
     <header className="properties-header"><Link href="/">MARIANA VILLARREAL</Link><Link href="/">INICIO</Link></header>
@@ -47,7 +48,8 @@ export default function PropertiesPage(){
       return <Link className="catalog-card" href={`/propiedades/${p.id}`} key={p.name}><div className={`catalog-image${p.containImage?" catalog-image--plan":""}`} style={{backgroundImage:`url(${propertyImage(p)})`}}/><div className="catalog-info">
         <strong>{p.name}</strong>
         <span>{p.zone}, {p.city}</span>
-        <span className={p.status?"catalog-status":undefined}>{p.status||formatPrice(p)}</span>
+        <span>{formatPropertyPrice(p)}</span>
+        {p.status&&<span className="catalog-status">{p.status}</span>}
         <span>Superficie total: {p.totalArea?p.totalArea.toLocaleString("es-MX")+" m²":"A solicitud"}</span>
         {p.construction&&<span>{p.construction.toLocaleString("es-MX")} m² construcción</span>}
         {residential&&p.beds>0&&<span>{p.beds} recámaras</span>}
