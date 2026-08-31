@@ -5,8 +5,8 @@ import Link from "next/link";
 
 const properties = [
   { id:"PROP-006", name:"Penthouses Torre Latitud 25", location:"Gómez Palacio, Durango", area:"485.85 m²", image:"/properties/PROP-006/01.jpg" },
-  { id:"PROP-002", name:"Casa II", location:"La Cava Residencial, Gómez Palacio", area:"311 m²", image:"/properties/PROP-002/01.jpg" },
-  { id:"PROP-003", name:"Lote Las Villas del Cardenchal", location:"Torreón, Coahuila", area:"360 m²", image:"/properties/PROP-003/01.jpg" },
+  { id:"PROP-002", name:"Casa 02", location:"La Cava Residencial, Gómez Palacio", area:"311 m²", image:"/properties/PROP-002/01.jpg" },
+  { id:"PROP-003", name:"Agaves 03", location:"Las Villas del Cardenchal, Torreón", area:"360 m²", image:"/properties/PROP-003/01.jpg" },
   { id:"PROP-009", name:"Lote Villa Cóndores", location:"Las Villas, Torreón", area:"600 m²", image:"/properties/PROP-009/02.jpg" },
 ];
 

@@ -45,7 +45,7 @@ export default function PropertiesPage(){
     <div className="result-count">{visible.length} propiedades</div>
     <section className="catalog-grid">{visible.map(p=>{
       const residential=p.type==="Casa"||p.type==="Departamento";
-      return <Link className="catalog-card" href={`/propiedades/${p.id}`} key={p.name}><div className={`catalog-image${p.containImage?" catalog-image--plan":""}`} style={{backgroundImage:`url(${propertyImage(p)})`}}/><div className="catalog-info">
+      return <Link className="catalog-card" href={`/propiedades/${p.id}`} key={p.name}>{p.imageCount>0?<div className={`catalog-image${p.containImage?" catalog-image--plan":""}`} style={{backgroundImage:`url(${propertyImage(p)})`}}/>:<div className="catalog-image catalog-image--placeholder"><span>Imágenes próximamente</span></div>}<div className="catalog-info">
         <strong>{p.name}</strong>
         <span>{p.zone}, {p.city}</span>
         <span>{formatPropertyPrice(p)}</span>
