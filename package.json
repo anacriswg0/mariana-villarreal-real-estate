@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "vinext build",
+    "postbuild": "node scripts/stage-sites-hosting.mjs",
     "start": "next start",
     "test": "next build",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
