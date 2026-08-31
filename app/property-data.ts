@@ -32,6 +32,7 @@ export const properties: Property[] = [
     city: "Torreón",
     zone: "Las Villas",
     price: 38000000,
+    pricePerSquareMeter: 54834.05,
     totalArea: 1099.2,
     construction: 693,
     beds: 4,
@@ -49,6 +50,7 @@ export const properties: Property[] = [
     city: "Gómez Palacio, Durango",
     zone: "La Cava Residencial",
     price: 9950000,
+    pricePerSquareMeter: 27060.1,
     totalArea: 311,
     construction: 367.7,
     beds: 3,
@@ -83,6 +85,7 @@ export const properties: Property[] = [
     city: "Torreón",
     zone: "Las Villas",
     price: 19900000,
+    pricePerSquareMeter: 31993.57,
     totalArea: 600,
     construction: 622,
     beds: 4,
@@ -100,6 +103,7 @@ export const properties: Property[] = [
     city: "Gómez Palacio, Durango",
     zone: "La Gran Vinícola",
     price: 8821800,
+    pricePerSquareMeter: 7799.52,
     totalArea: 1131.07,
     beds: 0,
     baths: 0,
@@ -131,6 +135,7 @@ export const properties: Property[] = [
     city: "Torreón",
     zone: "Centro / Avenida Allende",
     price: 19000000,
+    pricePerSquareMeter: 5475.98,
     totalArea: 3469.7,
     construction: 3469.7,
     beds: 0,
@@ -148,6 +153,7 @@ export const properties: Property[] = [
     city: "Torreón",
     zone: "Las Villas",
     price: 5700000,
+    pricePerSquareMeter: 9500,
     totalArea: 600,
     beds: 0,
     baths: 0,
@@ -166,6 +172,7 @@ export const properties: Property[] = [
     city: "San Pedro Garza García",
     zone: "Parque Rufino Tamayo",
     price: 19000000,
+    pricePerSquareMeter: 186274.51,
     totalArea: 102,
     beds: 2,
     baths: 2.5,
@@ -181,6 +188,7 @@ export const properties: Property[] = [
     city: "Arteaga, Coahuila",
     zone: "Carretera Arteaga",
     price: 19000000,
+    pricePerSquareMeter: 73.08,
     totalArea: 260000,
     beds: 0,
     baths: 0,
@@ -261,6 +269,7 @@ export const properties: Property[] = [
     city: "Torreón",
     zone: "Las Villas",
     price: 19300000,
+    pricePerSquareMeter: 34159.29,
     totalArea: 650,
     construction: 565,
     beds: 0,
@@ -336,4 +345,9 @@ export const formatPropertyPrice = (property: Property) => {
   if (property.price) return `${formatter.format(property.price)}${property.pricePeriod ? ` / ${property.pricePeriod}` : ""}`;
   if (property.pricePerSquareMeter) return `${formatter.format(property.pricePerSquareMeter)} / m²`;
   return "Precio a solicitud";
+};
+
+export const formatPricePerSquareMeter = (property: Property) => {
+  if (!property.pricePerSquareMeter) return undefined;
+  return `${new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN", maximumFractionDigits: 0 }).format(property.pricePerSquareMeter)} / m²`;
 };

@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { formatPropertyPrice, properties, propertyGalleryImages, propertyImage } from "../../property-data";
+import { formatPricePerSquareMeter, formatPropertyPrice, properties, propertyGalleryImages, propertyImage } from "../../property-data";
 
 export function generateStaticParams(){return properties.map(property=>({id:property.id}));}
 
@@ -18,6 +18,7 @@ export async function generateMetadata({params}:{params:Promise<{id:string}>}):P
 export default async function PropertyDetail({params}:{params:Promise<{id:string}>}){
   const {id}=await params; const property=properties.find(item=>item.id===id); if(!property)notFound();
   const price=formatPropertyPrice(property);
+  const pricePerSquareMeter=formatPricePerSquareMeter(property);
   const residential=property.type==="Casa"||property.type==="Departamento";
   return <main className="property-detail">
     {property.imageCount>0?<section className={`detail-hero${property.containImage?" detail-hero--plan":""}`} style={{backgroundImage:`url(${propertyImage(property)})`}}/>:<section className="detail-hero detail-hero--placeholder"><span>Imágenes próximamente</span></section>}
@@ -26,6 +27,7 @@ export default async function PropertyDetail({params}:{params:Promise<{id:string
       <dt>Tipo de propiedad</dt><dd>{property.type}</dd>
       <dt>Ubicación</dt><dd>{property.zone}, {property.city}</dd>
       <dt>Superficie total</dt><dd>{property.totalArea>0?`${property.totalArea.toLocaleString("es-MX")} m²`:"A solicitud"}</dd>
+      {pricePerSquareMeter&&<><dt>Precio por m²</dt><dd>{pricePerSquareMeter}</dd></>}
       {property.construction&&<><dt>Construcción</dt><dd>{property.construction.toLocaleString("es-MX")} m²</dd></>}
       {residential&&<><dt>Recámaras</dt><dd>{property.beds>0?property.beds:"A solicitud"}</dd><dt>Baños</dt><dd>{property.baths>0?property.baths:"A solicitud"}</dd></>}
     </dl></div></section>
