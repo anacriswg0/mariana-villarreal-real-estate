@@ -31,7 +31,7 @@ export default function PropertiesPage(){
     const pricePerSquareMeter=p.pricePerSquareMeter;
     const matchesPricePerSquareMeter=!selected.pricePerSquareMeter.length||(pricePerSquareMeter!==undefined&&pricePerSquareMeterOptions.some(option=>selected.pricePerSquareMeter.includes(option.value)&&option.matches(pricePerSquareMeter)));
     return (!selected.operation.length||selected.operation.includes(p.operation))&&matchesPricePerSquareMeter&&(!selected.type.length||selected.type.includes(p.type))&&(!selected.city.length||selected.city.includes(p.city))&&(!selected.zone.length||selected.zone.includes(p.zone))&&(!listingPrice||listingPrice<=Number(maxPrice))&&(maxArea==="all"||(p.totalArea>0&&p.totalArea<=Number(maxArea)))&&(!residential||(p.beds>=Number(beds)&&p.baths>=Number(baths)))&&selected.features.every(feature=>p.features.includes(feature));
-  }).sort((a,b)=>a.name.localeCompare(b.name,"es",{sensitivity:"base"})),[selected,maxPrice,maxArea,beds,baths,residential]);
+  }).sort((a,b)=>(propertyTotalPrice(b)??-1)-(propertyTotalPrice(a)??-1)||a.name.localeCompare(b.name,"es",{sensitivity:"base"})),[selected,maxPrice,maxArea,beds,baths,residential]);
   const checks=(title:string,group:string,options:string[],disabled=false)=><fieldset className={disabled?"disabled":""} disabled={disabled}><legend>{title}</legend>{options.map(option=><label className="check" key={option}><input type="checkbox" checked={selected[group].includes(option)} onChange={()=>toggle(group,option)}/>{option}</label>)}</fieldset>;
   return <main className="properties-page">
     <header className="properties-header"><Link href="/">MARIANA VILLARREAL</Link><Link href="/">INICIO</Link></header>
