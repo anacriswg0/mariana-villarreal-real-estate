@@ -237,7 +237,7 @@ export const properties: Property[] = [
     city: "Parras de la Fuente, Coahuila",
     zone: "Fraccionamiento Parvada",
     price: 4673700,
-    pricePerSquareMeter: 4050,
+    pricePerSquareMeter: 4048.42,
     totalArea: 1154.45,
     beds: 0,
     baths: 0,
