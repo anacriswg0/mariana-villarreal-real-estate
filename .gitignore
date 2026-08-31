@@ -9,12 +9,14 @@ dist/
 .pnpm-store/
 .openai/*
 !.openai/hosting.json
-build/
-worker/
+build/*
+!build/sites-vite-plugin.ts
+worker/*
+!worker/index.ts
 examples/
 drizzle/
 db/
-vite.config.ts
+!vite.config.ts
 drizzle.config.ts
 pnpm-workspace.yaml
 .vercel
