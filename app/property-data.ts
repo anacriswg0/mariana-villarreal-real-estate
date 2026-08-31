@@ -325,7 +325,7 @@ export const properties: Property[] = [
     baths: 0,
     features: ["Superficie total: 1,000 m²", "Precio: $9,300 MXN por m²"],
     description: "Lote de 1,000 m² disponible en Las Villas, con un precio de $9,300 MXN por m².",
-    imageCount: 0,
+    imageCount: 1,
   },
 ];
 
