@@ -15,15 +15,21 @@ const zonesByCity=properties.reduce<Record<string,string[]>>((zones,property)=>{
 },{});
 const filterableFeatures=["Alberca","Gym","Rooftop","Terraza","Jardín","Oficina","Sala de TV","Canchas de pádel","Área de asadores","Acceso directo al parque"];
 const availableFeatures=filterableFeatures.filter(feature=>properties.some(property=>property.features.includes(feature)));
+const pricePerSquareMeterOptions=[
+  {value:"Hasta $7,500",matches:(price:number)=>price<=7500},
+  {value:"$7,501–$9,000",matches:(price:number)=>price>7500&&price<=9000},
+  {value:"Más de $9,000",matches:(price:number)=>price>9000},
+];
 export default function PropertiesPage(){
-  const [selected,setSelected]=useState<Record<string,string[]>>({operation:[],type:[],city:[],zone:[],features:[]});
+  const [selected,setSelected]=useState<Record<string,string[]>>({operation:[],pricePerSquareMeter:[],type:[],city:[],zone:[],features:[]});
   const [maxPrice,setMaxPrice]=useState("999999999"); const [maxArea,setMaxArea]=useState("all"); const [beds,setBeds]=useState("0"); const [baths,setBaths]=useState("0");
   const toggle=(group:string,value:string)=>setSelected(current=>({...current,[group]:current[group].includes(value)?current[group].filter(item=>item!==value):[...current[group],value],...(group==="city"?{zone:[]}:{} )}));
   const zones=selected.city.length?selected.city.flatMap(city=>zonesByCity[city]||[]):[];
   const residential=selected.type.some(type=>type==="Casa"||type==="Departamento");
   const visible=useMemo(()=>properties.filter(p=>{
     const listingPrice=propertyTotalPrice(p);
-    return (!selected.operation.length||selected.operation.includes(p.operation))&&(!selected.type.length||selected.type.includes(p.type))&&(!selected.city.length||selected.city.includes(p.city))&&(!selected.zone.length||selected.zone.includes(p.zone))&&(!listingPrice||listingPrice<=Number(maxPrice))&&(maxArea==="all"||(p.totalArea>0&&p.totalArea<=Number(maxArea)))&&(!residential||(p.beds>=Number(beds)&&p.baths>=Number(baths)))&&selected.features.every(feature=>p.features.includes(feature));
+    const matchesPricePerSquareMeter=!selected.pricePerSquareMeter.length||(p.pricePerSquareMeter!==undefined&&pricePerSquareMeterOptions.some(option=>selected.pricePerSquareMeter.includes(option.value)&&option.matches(p.pricePerSquareMeter)));
+    return (!selected.operation.length||selected.operation.includes(p.operation))&&matchesPricePerSquareMeter&&(!selected.type.length||selected.type.includes(p.type))&&(!selected.city.length||selected.city.includes(p.city))&&(!selected.zone.length||selected.zone.includes(p.zone))&&(!listingPrice||listingPrice<=Number(maxPrice))&&(maxArea==="all"||(p.totalArea>0&&p.totalArea<=Number(maxArea)))&&(!residential||(p.beds>=Number(beds)&&p.baths>=Number(baths)))&&selected.features.every(feature=>p.features.includes(feature));
   }).sort((a,b)=>a.name.localeCompare(b.name,"es",{sensitivity:"base"})),[selected,maxPrice,maxArea,beds,baths,residential]);
   const checks=(title:string,group:string,options:string[],disabled=false)=><fieldset className={disabled?"disabled":""} disabled={disabled}><legend>{title}</legend>{options.map(option=><label className="check" key={option}><input type="checkbox" checked={selected[group].includes(option)} onChange={()=>toggle(group,option)}/>{option}</label>)}</fieldset>;
   return <main className="properties-page">
@@ -32,6 +38,7 @@ export default function PropertiesPage(){
       <div><p>Propiedades</p><h1>Selección inmobiliaria en las mejores zonas para vivir o invertir.</h1></div>
       <div className="filters checkbox-filters">
         {checks("Operación","operation",groupOptions.operation)}
+        {checks("Precio por m²","pricePerSquareMeter",pricePerSquareMeterOptions.map(option=>option.value))}
         {checks("Tipo de propiedad","type",groupOptions.type)}
         {checks("Ciudad","city",groupOptions.city)}
         {checks("Zona o colonia","zone",zones,selected.city.length===0)}
