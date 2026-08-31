@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "vinext build",
+    "build": "node scripts/build.mjs",
     "postbuild": "node scripts/stage-sites-hosting.mjs",
     "start": "next start",
     "test": "next build",
