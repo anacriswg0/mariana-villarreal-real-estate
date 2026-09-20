@@ -21,6 +21,10 @@ export type Property = {
   containImage?: boolean;
   coverImageIndex?: number;
   galleryImageIndices?: number[];
+  areaLabel?: string;
+  address?: string;
+  unitTypes?: { name: string; interior: number; exterior: number; total: number }[];
+  brochureUrl?: string;
 };
 
 export const properties: Property[] = [
@@ -126,6 +130,28 @@ export const properties: Property[] = [
     description: "Últimos dos penthouses disponibles en un desarrollo diseñado por Landa + Martínez.",
     instagram: "https://www.instagram.com/p/DZYmfOiAGCK/",
     imageCount: 6,
+  },
+  {
+    id: "PROP-020",
+    name: "Penthouses Torre Latitud 25 · Tipos A, B y C",
+    operation: "Venta",
+    type: "Departamento",
+    city: "Torreón, Coahuila",
+    zone: "Ejido La Unión",
+    address: "Calz. Dra. María Montessori, Ejido La Unión, 27105 Torreón, Coahuila",
+    totalArea: 0,
+    areaLabel: "238.30–297.72 m²",
+    beds: 0,
+    baths: 0,
+    features: ["Penthouse en dos niveles", "Espacios exteriores", "Proyecto de Landa+Martínez"],
+    description: "Tres tipologías de penthouse en Torre Latitud 25, diseñadas por Landa+Martínez. Superficies interiores de 181.90 a 223.79 m² y exteriores de 56.40 a 80.87 m².",
+    imageCount: 7,
+    unitTypes: [
+      { name: "Tipo A", interior: 223.79, exterior: 73.93, total: 297.72 },
+      { name: "Tipo B", interior: 181.90, exterior: 56.40, total: 238.30 },
+      { name: "Tipo C", interior: 206.44, exterior: 80.87, total: 287.31 },
+    ],
+    brochureUrl: "/properties/PROP-020/torre-latitud-25-penthouses-septiembre-2026.pdf",
   },
   {
     id: "PROP-008",
