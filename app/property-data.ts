@@ -164,7 +164,7 @@ export const properties: Property[] = [
     beds: 0,
     baths: 0,
     features: ["Superficie total: 563.55 m²", "Fraccionamiento Las Cuadras"],
-    description: "Lote de 563.55 m² disponible en el fraccionamiento Las Cuadras, en Durango.",
+    description: "Lote en un desarrollo de Latitud 25, en Durango. Fraccionamiento Las Cuadras, con un diseño de Artigas Arquitectos. El concepto es tipo country club; te hace sentir fuera de México, en un lugar que respira paz. Amenidades INCREÍBLES.",
     imageCount: 0,
   },
   {
