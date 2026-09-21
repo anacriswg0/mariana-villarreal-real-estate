@@ -133,7 +133,7 @@ export const properties: Property[] = [
   },
   {
     id: "PROP-020",
-    name: "Penthouses Torre Latitud 25 · Tipos A, B y C",
+    name: "Nuevos Departamentos Torre Latitud 25",
     operation: "Venta",
     type: "Departamento",
     city: "Torreón, Coahuila",
