@@ -30,8 +30,9 @@ export default function PropertiesPage(){
     const listingPrice=propertyTotalPrice(p);
     const pricePerSquareMeter=p.pricePerSquareMeter;
     const smallestArea=p.unitTypes?Math.min(...p.unitTypes.map(unit=>unit.total)):p.totalArea;
+    const mostBedrooms=p.unitTypes?Math.max(p.beds,...p.unitTypes.map(unit=>unit.bedrooms||0)):p.beds;
     const matchesPricePerSquareMeter=!selected.pricePerSquareMeter.length||(pricePerSquareMeter!==undefined&&pricePerSquareMeterOptions.some(option=>selected.pricePerSquareMeter.includes(option.value)&&option.matches(pricePerSquareMeter)));
-    return (!selected.operation.length||selected.operation.includes(p.operation))&&matchesPricePerSquareMeter&&(!selected.type.length||selected.type.includes(p.type))&&(!selected.city.length||selected.city.includes(p.city))&&(!selected.zone.length||selected.zone.includes(p.zone))&&(!listingPrice||listingPrice<=Number(maxPrice))&&(maxArea==="all"||(smallestArea>0&&smallestArea<=Number(maxArea)))&&(!residential||(p.beds>=Number(beds)&&p.baths>=Number(baths)))&&selected.features.every(feature=>p.features.includes(feature));
+    return (!selected.operation.length||selected.operation.includes(p.operation))&&matchesPricePerSquareMeter&&(!selected.type.length||selected.type.includes(p.type))&&(!selected.city.length||selected.city.includes(p.city))&&(!selected.zone.length||selected.zone.includes(p.zone))&&(!listingPrice||listingPrice<=Number(maxPrice))&&(maxArea==="all"||(smallestArea>0&&smallestArea<=Number(maxArea)))&&(!residential||(mostBedrooms>=Number(beds)&&p.baths>=Number(baths)))&&selected.features.every(feature=>p.features.includes(feature));
   }).sort((a,b)=>(propertyTotalPrice(b)??-1)-(propertyTotalPrice(a)??-1)||a.name.localeCompare(b.name,"es",{sensitivity:"base"})),[selected,maxPrice,maxArea,beds,baths,residential]);
   const checks=(title:string,group:string,options:string[],disabled=false)=><fieldset className={disabled?"disabled":""} disabled={disabled}><legend>{title}</legend>{options.map(option=><label className="check" key={option}><input type="checkbox" checked={selected[group].includes(option)} onChange={()=>toggle(group,option)}/>{option}</label>)}</fieldset>;
   return <main className="properties-page">
@@ -61,7 +62,7 @@ export default function PropertiesPage(){
         {p.status&&<span className="catalog-status">{p.status}</span>}
         <span>Superficie total: {p.areaLabel || (p.totalArea?p.totalArea.toLocaleString("es-MX")+" m²":"A solicitud")}</span>
         {p.construction&&<span>{p.construction.toLocaleString("es-MX")} m² construcción</span>}
-        {residential&&p.beds>0&&<span>{p.beds} recámaras</span>}
+        {residential&&p.beds>0&&<span>{p.bedroomLabel || `${p.beds} recámaras`}</span>}
         {residential&&p.baths>0&&<span>{p.baths} baños</span>}
       </div></Link>;
     })}</section>

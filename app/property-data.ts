@@ -8,6 +8,7 @@ export type Property = {
   totalArea: number;
   construction?: number;
   price?: number;
+  priceLabel?: string;
   pricePerSquareMeter?: number;
   pricePeriod?: string;
   status?: "VENDIDA";
@@ -22,9 +23,12 @@ export type Property = {
   coverImageIndex?: number;
   galleryImageIndices?: number[];
   areaLabel?: string;
+  bedroomLabel?: string;
   address?: string;
-  unitTypes?: { name: string; interior: number; exterior: number; total: number }[];
+  unitTypes?: { name: string; interior: number; exterior: number; total: number; units?: string; price?: number; bedrooms?: number }[];
   brochureUrl?: string;
+  documents?: { label: string; url: string }[];
+  paymentOptions?: string[];
 };
 
 export const properties: Property[] = [
@@ -139,19 +143,31 @@ export const properties: Property[] = [
     city: "Torreón, Coahuila",
     zone: "Ejido La Unión",
     address: "Calz. Dra. María Montessori, Ejido La Unión, 27105 Torreón, Coahuila",
+    price: 12500000,
+    priceLabel: "Desde $12,500,000 MXN",
     totalArea: 0,
     areaLabel: "238.30–297.72 m²",
-    beds: 0,
+    bedroomLabel: "1–2 recámaras",
+    beds: 1,
     baths: 0,
-    features: ["Penthouse en dos niveles", "Espacios exteriores", "Proyecto de Landa+Martínez"],
-    description: "Tres tipologías de penthouse en Torre Latitud 25, diseñadas por Landa+Martínez. Superficies interiores de 181.90 a 223.79 m² y exteriores de 56.40 a 80.87 m².",
+    features: ["Penthouse en dos niveles", "1 o 2 recámaras", "Walk-in closet", "Recámara de servicio", "Centro de lavado", "Playroom en terraza", "Alberca", "Terraza con asadores", "Salón de eventos", "Proyecto de Landa+Martínez"],
+    description: "Cinco penthouses disponibles en Torre Latitud 25, en Uptown Torreón. Tipologías de una y dos recámaras, con superficies de 238.30 a 297.72 m², espacios exteriores y amenidades exclusivas.",
     imageCount: 7,
     unitTypes: [
-      { name: "Tipo A", interior: 223.79, exterior: 73.93, total: 297.72 },
-      { name: "Tipo B", interior: 181.90, exterior: 56.40, total: 238.30 },
-      { name: "Tipo C", interior: 206.44, exterior: 80.87, total: 287.31 },
+      { name: "Tipo A", units: "PH 601 y PH 605", price: 15500000, bedrooms: 2, interior: 223.79, exterior: 73.93, total: 297.72 },
+      { name: "Tipo B", units: "PH 602 y PH 604", price: 12500000, bedrooms: 1, interior: 181.90, exterior: 56.40, total: 238.30 },
+      { name: "Tipo C", units: "PH 603", price: 15000000, bedrooms: 2, interior: 206.44, exterior: 80.87, total: 287.31 },
     ],
-    brochureUrl: "/properties/PROP-020/torre-latitud-25-penthouses-septiembre-2026.pdf",
+    paymentOptions: [
+      "20% de anticipo, 60% a 18 meses sin intereses y 20% contra entrega.",
+      "40% de anticipo, 40% a 18 meses sin intereses y 20% contra entrega; aplica 2.5% de descuento.",
+      "80% de anticipo y 20% a 18 meses sin intereses; aplica 8% de descuento.",
+    ],
+    documents: [
+      { label: "Brochure", url: "/properties/PROP-020/brochure-penthouses-torre-latitud-25.pdf" },
+      { label: "Disponibilidad", url: "/properties/PROP-020/disponibilidad-penthouses-torre-latitud-25.pdf" },
+      { label: "Política de venta", url: "/properties/PROP-020/politica-de-venta-penthouses-torre-latitud-25.pdf" },
+    ],
   },
   {
     id: "PROP-021",
@@ -383,6 +399,7 @@ export const propertyTotalPrice = (property: Property) =>
 
 export const formatPropertyPrice = (property: Property) => {
   const formatter = new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN", maximumFractionDigits: 0 });
+  if (property.priceLabel) return property.priceLabel;
   if (property.price) return `${formatter.format(property.price)}${property.pricePeriod ? ` / ${property.pricePeriod}` : ""}`;
   if (property.pricePerSquareMeter) return `${formatter.format(property.pricePerSquareMeter)} / m²`;
   return "Precio a solicitud";
